@@ -3,67 +3,71 @@ let computerScore = 0;
 let humanChoice;
 let computerChoice;
 
-function getComputerChoice(){
-  let choicenum = Math.floor(Math.random() * 3) + 1;
-  if(choicenum === 1){
-    return "rock";
-  }
-  else if(choicenum === 2){
-    return "paper";
-  }
-  else {
-    return "scissor";
-  }
+const result = document.querySelector(".result-status");
+const game = document.querySelector(".game");
+const comp = document.querySelector(".computer-score");
+const hum = document.querySelector(".human-score");
+const choices = document.querySelector(".choices");
+
+comp.textContent = computerScore;
+hum.textContent = humanScore;
+
+// ---- reset button ----
+const resetButton = document.createElement("button");
+resetButton.textContent = "Play Again";
+resetButton.classList.add("reset-button");
+
+resetButton.addEventListener("click", () => {
+  humanScore = 0;
+  computerScore = 0;
+  comp.textContent = computerScore;
+  hum.textContent = humanScore;
+  result.textContent = "Make Your Choice";
+  resetButton.replaceWith(choices);
+});
+
+// ---- event delegation ONLY on choices ----
+choices.addEventListener("click", (e) => {
+  const button = e.target.closest("button");
+  if (!button) return;
+
+  humanChoice = button.id;
+  playRound();
+});
+
+function getComputerChoice() {
+  const choices = ["rock", "paper", "scissor"];
+  return choices[Math.floor(Math.random() * 3)];
 }
 
-function getHumanChoice(){
-  let choice = prompt("Enter you choice:");
-  return choice;
-}
-
-function playRound(){
-  humanChoice = (getHumanChoice()).toLowerCase();
+function playRound() {
   computerChoice = getComputerChoice();
-  if(humanChoice === "rock" && computerChoice === "paper"){
-    console.log("You lose! You chose Rock and Computer chose Paper. Paper beats Rock");
-    computerScore++;
-  }
-  else if(humanChoice === "rock" && computerChoice === "scissor"){
-    console.log("You win! You chose Rock and Computer chose Scissor. Rock beats Scissor");
-    humanScore++;
-  }
-  else if(humanChoice === "paper" && computerChoice === "rock"){
-    console.log("You win! You chose Paper and Computer chose Rock. Paper beats Rock");
-    humanScore++;
-  }
-  else if(humanChoice === "paper" && computerChoice === "scissor"){
-    console.log("You lose! You chose Paper and Computer chose Scissor. Scissor beats Paper");
-    computerScore++;
-  }
-  else if(humanChoice === "scissor" && computerChoice === "rock"){
-    console.log("You lose! You chose Scissor and Computer chose Rock. Rock beats Scissor");
-    computerScore++;
-  }
-  else if(humanChoice === "scissor" && computerChoice === "paper"){
-    console.log("You win! You chose Scissor and Computer chose Paper. Scissor beats Paper");
-    humanScore++;
-  }
-  else{
-    console.log("Draw!");
-    if(humanChoice === "scissor" && computerChoice === "scissor"){
-      console.log("Both chose Scissor");
-    }
-    else if(humanChoice === "rock" && computerChoice === "rock"){
-      console.log("Both chose Rock");
-    }
-    else{
-      console.log("Both chose Paper");
-    }
-  }
-}
 
-function displayScore(){
-  console.log("---- Score ----");
-  console.log("Computer: ",computerScore);
-  console.log("User: ",humanScore);
+  if (humanChoice === computerChoice) {
+    result.textContent = `Both chose ${humanChoice}`;
+    return;
+  }
+
+  const win =
+    (humanChoice === "rock" && computerChoice === "scissor") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissor" && computerChoice === "paper");
+
+  if (win) {
+    humanScore++;
+    hum.textContent = humanScore;
+    result.textContent = `You chose ${humanChoice}, computer chose ${computerChoice}. You win!`;
+  } else {
+    computerScore++;
+    comp.textContent = computerScore;
+    result.textContent = `You chose ${humanChoice}, computer chose ${computerChoice}. Computer wins!`;
+  }
+
+  if (humanScore === 5) {
+    result.textContent = "You Won!";
+    choices.replaceWith(resetButton);
+  } else if (computerScore === 5) {
+    result.textContent = "Computer Won!";
+    choices.replaceWith(resetButton);
+  }
 }

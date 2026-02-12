@@ -3,12 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rock Paper Scissor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Rock Paper Scissor Game</title>
 </head>
 <body>
-  <h1>---Check Console---</h1>
-  <p>Right Click on the page and then select "inspect".</p>
-  <p>Select the console tab</p>
+  <h1>Fastest To Get Score of 5 Wins</h1>
+  <main>
+    <div class="result-status"><p>Make Your Choice</p></div>  
+    <div class="game">
+      <div class="scoreboard">
+        <div class="computer"><p>Computer Score:</p><p class="computer-score"></p></div>
+        <div class="human"><p>Human Score:</p><p class="human-score"></p></div>
+      </div>
+      <div class="choices">
+        <button id="rock"><i class="fa-solid fa-hand-back-fist"></i></button>
+        <button id="paper"><i class="fa-solid fa-hand"></i></button>
+        <button id="scissor"><i class="fa-solid fa-scissors"></i></button>
+      </div>
+    </div>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>
